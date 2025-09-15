@@ -2,6 +2,22 @@
 
 {% block title %}{{ block.super}} - Login{% endblock %}
 
-{block content}
-    
-{endblock}
+{% block content %}
+    <h2>Login to your FitSight Account</h2>
+    <a href="{% url 'signup' %}">Sign Up</a>
+
+    <form action="" method="post">
+        {% csrf_token %}
+
+        {% if form.non_field_error %}
+            <ul>
+                {% for error in form.non_field_error %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        {{ form.as_p }}
+        <input type="submit" value="Login">
+    </form>
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ block.super }} - Registration{% endblock %}
+
+{% block content %}
+    <h2>Create your FitSight account</h2>
+    <a href="{% url 'login' %}">Login</a>
+
+    <form action="" method="post">
+        {% csrf_token %}
+
+        {% if form.errors %}
+            <strong>Please correct the errors below:</strong>
+            <ul>
+                {% for field in form %}
+                    {% for error in field.errors %}
+                        <li>{{ field.label }} : {{ error }}</li>
+                    {% endfor %}
+                {% endfor %}
+
+                {% for error in form.non_field_errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        {{ form.as_p }}
+        <input type="submit" value="Sign Up">
+    </form>
+{% endblock %}
