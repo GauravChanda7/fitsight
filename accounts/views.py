@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
-from .forms import CustomUserCreationForm
+from .forms import CustomUserCreationForm, CustomUserUpdateForm
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
 
@@ -21,6 +21,7 @@ def signup_view(request):
             return redirect('dashboard')
     else:    
         form = CustomUserCreationForm()
+
     context = {'form' : form}
     return render(request, 'accounts/signup.html', context)
 
@@ -41,14 +42,32 @@ def login_view(request):
                 return redirect('dashboard')
     else:
         form = AuthenticationForm()
+
     context = {'form' : form}
     return render(request, 'accounts/login.html', context)
-
-@login_required(login_url='login')
-def dahsboard_view(request):
-    return render(request, 'accounts/dashboard.html')
 
 @login_required(login_url='login')
 def logout_view(request):
     logout(request)
     return redirect('login')
+
+@login_required(login_url='login')
+def update_profile_view(request):
+    if request.method == 'POST':
+        form = CustomUserUpdateForm(request.POST, instance = request.user)
+        
+        if form.is_valid():
+            form.save()
+            return redirect('dashboard')
+        
+    else: 
+        form = CustomUserUpdateForm(instance= request.user)
+
+    context = {'form' : form}
+    return render(request, 'accounts/update_profile.html', context)
+    
+
+
+@login_required(login_url='login')
+def dahsboard_view(request):
+    return render(request, 'accounts/dashboard.html')
