@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block head %}{{block.super}} - Add Exercise{% endblock %}
+
+{% block content %}
+    <form action="" method="post">
+        {% csrf_token %}
+
+        <ul>
+            {% for field in form %}
+                {% for error in field.errors %}
+                    <li>{{field.label}} : {{error}}</li>
+                {% endfor %}
+            {% endfor %}
+
+            {% for error in form.non_field_error %}
+                <li>{{ error }}</li>
+            {% endfor %}
+        </ul>
+        
+        {{ form.as_p }}
+        <input type="submit" value="Add exercise">
+    </form>
+{% endblock %}

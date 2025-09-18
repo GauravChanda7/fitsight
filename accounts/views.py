@@ -46,10 +46,12 @@ def login_view(request):
     context = {'form' : form}
     return render(request, 'accounts/login.html', context)
 
+
 @login_required(login_url='login')
 def logout_view(request):
     logout(request)
     return redirect('login')
+
 
 @login_required(login_url='login')
 def update_profile_view(request):
@@ -66,7 +68,6 @@ def update_profile_view(request):
     context = {'form' : form}
     return render(request, 'accounts/update_profile.html', context)
     
-
 
 @login_required(login_url='login')
 def dahsboard_view(request):

@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ block.super }} - Live Workout{% endblock %}
+
+{% block content %}
+    <h2>Live Workout - {{ session.date }}</h2>
+    <a href="{% url 'add_exercise' session.id %}">Add a New Exercise</a>
+
+    <h3>Log a New Set</h3>
+    <form method="post">
+        {% csrf_token %}
+
+        {% if form.errors %}
+            <ul>
+                {% for field in form %}
+                    {% for error in field.errors %}
+                        <li>{{ field.label }} : {{ error }}</li>
+                    {% endfor %}
+                {% endfor %}
+                {% for error in form.non_field_errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        {{ form.as_p }}
+        <input type="submit" value="Log Set">
+    </form>
+
+    <h3>Completed Sets</h3>
+    <ul>
+        {% for s in completed_sets %}
+            <li>{{ s.reps }} reps of {{ s.exercise_name }} at {{ s.weight_kg }}kg</li>
+        {% empty %}
+            <li>You haven't logged any sets for this workout yet.</li>
+        {% endfor %}
+    </ul>
+
+    <a href="{% url 'dashboard' %}">End Session</a>
+{% endblock %}

@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'accounts.apps.AccountsConfig',
+    'fitness_tracking.apps.FitnessTrackingConfig',
 ]
 
 MIDDLEWARE = [
