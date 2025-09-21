@@ -4,7 +4,7 @@
 
 {% block content %}
     <h2>Login to your FitSight Account</h2>
-    <a href="{% url 'signup' %}">Sign Up</a>
+    <a href="{% url 'accounts:signup' %}">Sign Up</a>
 
     <form action="" method="post">
         {% csrf_token %}

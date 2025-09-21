@@ -11,14 +11,14 @@ from django.contrib.auth.decorators import login_required
 
 def signup_view(request):
     if request.user.is_authenticated:
-        return redirect('dashboard')
+        return redirect('accounts:dashboard')
     
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
             login(request, user)
-            return redirect('dashboard')
+            return redirect('accounts:dashboard')
     else:    
         form = CustomUserCreationForm()
 
@@ -28,7 +28,7 @@ def signup_view(request):
 
 def login_view(request):
     if request.user.is_authenticated:
-        return redirect('dashboard')
+        return redirect('accounts:dashboard')
     
     if request.method == 'POST':
         form = AuthenticationForm(request, data = request.POST)
@@ -39,7 +39,7 @@ def login_view(request):
             user = authenticate(username=username, password=password)
             if user is not None:
                 login(request, user)
-                return redirect('dashboard')
+                return redirect('accounts:dashboard')
     else:
         form = AuthenticationForm()
 
@@ -47,20 +47,20 @@ def login_view(request):
     return render(request, 'accounts/login.html', context)
 
 
-@login_required(login_url='login')
+@login_required(login_url='accounts:login')
 def logout_view(request):
     logout(request)
-    return redirect('login')
+    return redirect('accounts:login')
 
 
-@login_required(login_url='login')
+@login_required(login_url='accounts:login')
 def update_profile_view(request):
     if request.method == 'POST':
         form = CustomUserUpdateForm(request.POST, instance = request.user)
         
         if form.is_valid():
             form.save()
-            return redirect('dashboard')
+            return redirect('accounts:dashboard')
         
     else: 
         form = CustomUserUpdateForm(instance= request.user)
@@ -69,6 +69,6 @@ def update_profile_view(request):
     return render(request, 'accounts/update_profile.html', context)
     
 
-@login_required(login_url='login')
+@login_required(login_url='accounts:login')
 def dahsboard_view(request):
     return render(request, 'accounts/dashboard.html')

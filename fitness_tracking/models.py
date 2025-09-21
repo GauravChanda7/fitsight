@@ -1,6 +1,7 @@
 from django.db import models
 from django.conf import settings
 from django.utils import timezone
+from django.db.models import Sum, Count, F
 
 # Create your models here.
 
@@ -11,6 +12,14 @@ class WorkoutSession(models.Model):
 
     def __str__(self):
         return f"{self.user}'s workout on {self.date}"
+    
+    def total_weight_lifted(self):
+        return Set.objects.filter(session = self).aggregate(
+            total_volume = Sum(F('weight_kg') * F('reps'))
+            )['total_volume'] or 0
+    
+    def target_muscles(self):
+        return Set.objects.filter(session = self).values_list('exercise_name__muscle_group', flat=True).distinct()
 
 class Exercise(models.Model):
     MUSCLE_GROUP_CHOICES = [

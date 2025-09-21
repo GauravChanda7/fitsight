@@ -4,7 +4,7 @@
 
 {% block content %}
     <h2>Live Workout - {{ session.date }}</h2>
-    <a href="{% url 'add_exercise' session.id %}">Add a New Exercise</a>
+    <a href="{% url 'fitness_tracking:add_exercise' session.id %}">Add a New Exercise</a>
 
     <h3>Log a New Set</h3>
     <form method="post">
@@ -36,5 +36,5 @@
         {% endfor %}
     </ul>
 
-    <a href="{% url 'dashboard' %}">End Session</a>
+    <a href="{% url 'accounts:dashboard' %}">End Session</a>
 {% endblock %}

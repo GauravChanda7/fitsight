@@ -4,7 +4,11 @@
 
 {% block content %}
     <h1>Dashboard</h1>
-    <a href="{% url 'logout' %}">Logout</a>
+    <a href="{% url 'fitness_tracking:create_session' %}">Start a New Workout</a>
     <br>
-    <a href="{% url 'update_profile'%}">Update Profie</a>
+    <a href="{% url 'accounts:logout' %}">Logout</a>
+    <br>
+    <a href="{% url 'accounts:update_profile' %}">Update Profile</a>
+    <br>
+    <a href="{% url 'fitness_tracking:workout_history' %}">History</a>
 {% endblock %}

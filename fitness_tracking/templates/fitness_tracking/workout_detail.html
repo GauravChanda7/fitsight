@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ block.super }} - Workout on {{ session.date }}{% endblock %}
+
+{% block content %}
+    <h2>Workout on {{ session.date }}</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Exercise name</th>
+                <th>Muscle Group</th>
+                <th>Reps</th>
+                <th>Weight</th>
+            </tr>
+        </thead>
+        
+        <tbody>
+            {% for set in sets%}
+                <tr>
+                    <td>{{ set.exercise_name.exercise_name }}</td>
+                    <td>{{ set.exercise_name.get_muscle_group_display }}</td>
+                    <td>{{ set.reps }}</td>
+                    <td>{{ set.weight_kg }}</td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="4"> No exercises performed in this session</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{% url 'accounts:dashboard' %}">Back to Dashboard</a>
+{% endblock %}
