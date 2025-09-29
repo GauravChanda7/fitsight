@@ -79,6 +79,7 @@ def workout_history_view(request):
         context = {"page_obj" : page_obj}
         return render(request, 'fitness_tracking/workout_history.html', context)
     
+@login_required(login_url='accounts:login')
 def workout_detail_view(request, session_id):
     if request.method == 'GET':
         session = get_object_or_404(WorkoutSession, id=session_id, user=request.user) 

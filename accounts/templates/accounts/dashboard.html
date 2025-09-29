@@ -1,14 +1,79 @@
 {% extends 'base.html' %}
 
+{% load static %}
+
 {% block title %}{{block.super}} - Dashboard {% endblock %}
+
+{% block script %}
+    <script src="{% static 'accounts/js/script.js'%}"></script>
+{% endblock %}
 
 {% block content %}
     <h1>Dashboard</h1>
-    <a href="{% url 'fitness_tracking:create_session' %}">Start a New Workout</a>
-    <br>
-    <a href="{% url 'accounts:logout' %}">Logout</a>
-    <br>
-    <a href="{% url 'accounts:update_profile' %}">Update Profile</a>
-    <br>
-    <a href="{% url 'fitness_tracking:workout_history' %}">History</a>
+    <div class="dashboard-actions">
+        <a href="{% url 'fitness_tracking:create_session' %}">Start a New Workout</a>
+        <a href="{% url 'accounts:logout' %}">Logout</a>
+        <a href="{% url 'accounts:update_profile' %}">Update Profile</a>
+        <a href="{% url 'fitness_tracking:workout_history' %}">History</a>
+    </div>
+    
+
+    <div class="dashboard-stats">
+        <p>Total Sessions : {{ total_sessions }}</p>
+        <p>Workouts this month : {{ workouts_this_month }}</p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Muscles Targeted</th>
+                    <th>Total Weight Lifted (kgs)</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for session in recent_sessions %}
+                    <tr>
+                        <td>{{ session.date }}</td>
+                        <td>
+                            {% for muscle in session.target_muscles %}
+                                {{muscle}} {% if not forloop.last %}, {% endif%}
+                            {% endfor %}
+                        </td>
+                        <td>{{ session.total_weight_lifted }}</td>
+                        <td><a href="{% url 'fitness_tracking:workout_detail' session.id %}">See more</a></td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="4">No data available</td>
+                    </tr>
+                {% endfor%}
+            </tbody>
+        </table>
+
+        <h3>Workout Frequency</h3>
+        <div class="chart-actions">
+            <button id="showWeeklyBtn" class="active">Last 7 Days</button>
+            <button id="showMonthlyBtn">Last 30 days</button>
+        </div>
+        <div class="chart-container">
+            <canvas id="frequencyChart"
+                data-weekly-data='{{ weekly_frequency_data|safe }}'
+                data-monthly-data='{{ monthly_frequency_data|safe }}'>
+            </canvas>
+        </div>
+
+        <h3>Your Progress (last 100 days)</h3>
+        <div class="volume-chart-container">
+            <canvas id="volumeChart" data-chart-data='{{ volume_chart_data|safe }}'></canvas>
+        </div>
+
+        <h3>Muscle Groups Trained (last 60 days)</h3>
+        <div class="muscle-chart-container">
+            <canvas id="musclePieChart" data-chart-data='{{ muscle_pie_chart_data|safe }}'></canvas>
+        </div>
+
+    </div>
 {% endblock %}
+
+
