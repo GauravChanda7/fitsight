@@ -1,6 +1,12 @@
 {% extends 'base.html' %}
 
+{% load static %}
+
 {% block title %}{{ block.super }} - Live Workout{% endblock %}
+
+{% block script %}
+    <script src="{% static 'fitness_tracking/js/live_workout.js'%}"></script>
+{% endblock %}
 
 {% block content %}
     <h2>Live Workout - {{ session.date }}</h2>

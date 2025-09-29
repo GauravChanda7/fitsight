@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from .forms import WorkoutSessionForm, SetForm, AddExerciseForm
 from .models import WorkoutSession, Set, Exercise
 from django.core.paginator import Paginator
+from django.http import JsonResponse
 
 # Create your views here.
 
@@ -79,6 +80,7 @@ def workout_history_view(request):
         context = {"page_obj" : page_obj}
         return render(request, 'fitness_tracking/workout_history.html', context)
     
+
 @login_required(login_url='accounts:login')
 def workout_detail_view(request, session_id):
     if request.method == 'GET':
@@ -88,6 +90,22 @@ def workout_detail_view(request, session_id):
                    'session' : session}
         return render(request, 'fitness_tracking/workout_detail.html', context)
 
+
+@login_required(login_url='accounts:login')
+def get_last_set_data(request, exercise_id):
+    last_set = Set.objects.filter(
+        session__user = request.user,
+        exercise_name__id = exercise_id,
+    ).order_by('-session__date', '-id').first()
+
+    if last_set:
+        data = {
+            'reps' : last_set.reps,
+            'weight_kg' : last_set.weight_kg,
+        }
+        return JsonResponse(data)
+    else:
+        return JsonResponse({'reps' : '', 'weight_kg' : ''})
 
 
 
