@@ -14,6 +14,13 @@ from collections import defaultdict
 
 # Create your views here.
 
+
+def landing_view(request):
+    if request.user.is_authenticated:
+        return redirect('accounts:dashboard')
+    
+    return render(request, 'accounts/landing_page.html')
+
 def signup_view(request):
     if request.user.is_authenticated:
         return redirect('accounts:dashboard')

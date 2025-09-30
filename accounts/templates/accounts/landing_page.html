@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ block.super }} - Welcome{% endblock %}
+
+{% block style %}
+    <link rel="stylesheet" href="{% static 'accounts/css/landing.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="landing-container">
+    <header class="landing-header">
+        <div class="logo">FitSight</div>
+        <nav class="landing-nav">
+            <a href="{% url 'accounts:login' %}">Login</a>
+            <a href="{% url 'accounts:signup' %}" class="btn-signup">Sign Up</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <h1>Track Your Fitness, See Your Progress</h1>
+            <p>Your ultimate companion for logging workouts, visualizing gains, and reaching your fitness goals.</p>
+            <a href="{% url 'accounts:signup' %}" class="cta-button">Start Your Journey</a>
+        </section>
+
+        <section class="features-section">
+            <h2>Why You'll Love FitSight</h2>
+            <div class="features-grid">
+                <div class="feature">
+                    <i class="fas fa-dumbbell"></i>
+                    <h3>Effortless Logging</h3>
+                    <p>Quickly log every set and rep. Our clean interface gets out of your way so you can focus on your workout.</p>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-chart-line"></i>
+                    <h3>Visualize Your Progress</h3>
+                    <p>Watch your strength and volume increase over time with beautiful, easy-to-read charts and graphs.</p>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-bullseye"></i>
+                    <h3>Stay Consistent</h3>
+                    <p>Analyze your workout frequency and muscle group distribution to ensure you're training smart and staying balanced.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+</div>
+
+<footer class="landing-footer">
+    <p>&copy; {% now "Y" %} FitSight. All Rights Reserved.</p>
+</footer>
+{% endblock %}
