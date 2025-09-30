@@ -151,11 +151,6 @@ def dahsboard_view(request):
             monthly_frequency_data['labels'].append(day.strftime("%b %d"))
             monthly_frequency_data['data'].append(workouts_by_date.get(day, 0))
 
-
-        
-
-
-
         context = {'recent_sessions' : recent_sessions,
                    'total_sessions' : total_sessions,
                    'workouts_this_month' : workouts_this_month,

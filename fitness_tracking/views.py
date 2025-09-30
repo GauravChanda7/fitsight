@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from .forms import WorkoutSessionForm, SetForm, AddExerciseForm
 from .models import WorkoutSession, Set, Exercise
 from django.core.paginator import Paginator
+from django.db.models import Max, Sum, F
 from django.http import JsonResponse
 
 # Create your views here.
@@ -108,4 +109,42 @@ def get_last_set_data(request, exercise_id):
         return JsonResponse({'reps' : '', 'weight_kg' : ''})
 
 
+@login_required(login_url='accounts:login')
+def exercise_progress_view(request):
+    exercise_list = Exercise.objects.filter(user = request.user).order_by('exercise_name')
+    context = {'exercise_list' : exercise_list}
+    return render(request, 'fitness_tracking/exercise_progress.html', context)
 
+
+@login_required(login_url='accounts:login')
+def get_exercise_progress_data(request, exercise_id):
+    sessions_with_exercise = WorkoutSession.objects.filter(
+        user = request.user,
+        set__exercise_name__id = exercise_id
+    ).distinct().order_by('date')
+
+    labels = []
+    max_weight_data = []
+    total_volume_data = []
+
+    for session in sessions_with_exercise:
+        labels.append(session.date.strftime('%b %d'))
+
+        sets_in_session = Set.objects.filter(
+            session = session,
+            exercise_name__id = exercise_id,
+        )
+
+        max_weight = sets_in_session.aggregate(max_w = Max('weight_kg'))['max_w'] or 0
+        max_weight_data.append(max_weight)
+
+        total_volume = sets_in_session.aggregate(total_v = Sum(F('reps') * F('weight_kg')))['total_v'] or 0
+        total_volume_data.append(total_volume)
+
+    data = {
+        'labels' : labels,
+        'max_weight_data' : max_weight_data,
+        'total_volume_data' : total_volume_data,
+    }
+
+    return JsonResponse(data)
