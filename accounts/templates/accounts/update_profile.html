@@ -1,12 +1,20 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}{{block.super}} - Update Profile {% endblock %}
 
+{% block style %}
+    <link rel="stylesheet" href="{% static 'accounts/css/update_profile.css' %}">
+{% endblock %}
+
 {% block content %}
+<div class="form-container">
+    <h2>Update Your Profile</h2>
     <form action="" method="post">
         {% csrf_token %}
 
-        {% if form.errors %}
+        {% if form.errors or form.non_field_errors %}
+        <div class="error-container">
             <ul>
                 {% for field in form %}
                     {% for error in field.errors %}
@@ -14,15 +22,15 @@
                     {% endfor %}
                 {% endfor %}
                 
-
-                {% for error in non_field_errors %}
+                {% for error in form.non_field_errors %}
                     <li>{{ error }}</li>
                 {% endfor %}
             </ul>
-            
+        </div>
         {% endif %}
 
         {{ form.as_p }}
         <input type="submit" value="Update Profile">
     </form>
+</div>
 {% endblock %}

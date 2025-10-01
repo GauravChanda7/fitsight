@@ -1,24 +1,36 @@
 {% extends 'base.html' %}
+{% load static %}
 
-{% block head %}{{block.super}} - Add Exercise{% endblock %}
+{% block title %}{{block.super}} - Add Exercise{% endblock %}
+
+{% block style %}
+    <link rel="stylesheet" href="{% static 'fitness_tracking/css/add_exercise.css' %}">
+{% endblock %}
 
 {% block content %}
+<div class="form-container">
+    <h2>Add a New Exercise</h2>
     <form action="" method="post">
         {% csrf_token %}
 
-        <ul>
-            {% for field in form %}
-                {% for error in field.errors %}
-                    <li>{{field.label}} : {{error}}</li>
+        {% if form.errors or form.non_field_errors %}
+        <div class="error-container">
+            <ul>
+                {% for field in form %}
+                    {% for error in field.errors %}
+                        <li>{{field.label}} : {{error}}</li>
+                    {% endfor %}
                 {% endfor %}
-            {% endfor %}
 
-            {% for error in form.non_field_error %}
-                <li>{{ error }}</li>
-            {% endfor %}
-        </ul>
+                {% for error in form.non_field_errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
         
         {{ form.as_p }}
-        <input type="submit" value="Add exercise">
+        <input type="submit" value="Add Exercise">
     </form>
+</div>
 {% endblock %}

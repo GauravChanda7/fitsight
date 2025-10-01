@@ -1,46 +1,62 @@
 {% extends 'base.html' %}
-
 {% load static %}
 
 {% block title %}{{ block.super }} - Live Workout{% endblock %}
+
+{% block style %}
+    <link rel="stylesheet" href="{% static 'fitness_tracking/css/live_workout.css' %}">
+{% endblock %}
 
 {% block script %}
     <script src="{% static 'fitness_tracking/js/live_workout.js'%}"></script>
 {% endblock %}
 
 {% block content %}
+<div class="container">
     <h2>Live Workout - {{ session.date }}</h2>
-    <a href="{% url 'fitness_tracking:add_exercise' session.id %}">Add a New Exercise</a>
+    
+    <div class="action-links">
+        <a href="{% url 'fitness_tracking:add_exercise' session.id %}">Add a New Exercise</a>
+    </div>
 
-    <h3>Log a New Set</h3>
-    <form method="post">
-        {% csrf_token %}
+    <div class="form-container">
+        <h3>Log a New Set</h3>
+        <form method="post">
+            {% csrf_token %}
 
-        {% if form.errors %}
-            <ul>
-                {% for field in form %}
-                    {% for error in field.errors %}
-                        <li>{{ field.label }} : {{ error }}</li>
+            {% if form.errors or form.non_field_errors %}
+            <div class="error-container">
+                <ul>
+                    {% for field in form %}
+                        {% for error in field.errors %}
+                            <li>{{ field.label }} : {{ error }}</li>
+                        {% endfor %}
                     {% endfor %}
-                {% endfor %}
-                {% for error in form.non_field_errors %}
-                    <li>{{ error }}</li>
-                {% endfor %}
-            </ul>
-        {% endif %}
+                    {% for error in form.non_field_errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
 
-        {{ form.as_p }}
-        <input type="submit" value="Log Set">
-    </form>
+            {{ form.as_p }}
+            <input type="submit" value="Log Set">
+        </form>
+    </div>
 
-    <h3>Completed Sets</h3>
-    <ul>
-        {% for s in completed_sets %}
-            <li>{{ s.reps }} reps of {{ s.exercise_name }} at {{ s.weight_kg }}kg</li>
-        {% empty %}
-            <li>You haven't logged any sets for this workout yet.</li>
-        {% endfor %}
-    </ul>
+    <div class="completed-sets-container">
+        <h3>Completed Sets</h3>
+        <ul>
+            {% for s in completed_sets %}
+                <li>{{ s.reps }} reps of {{ s.exercise_name }} at {{ s.weight_kg }}kg</li>
+            {% empty %}
+                <li>You haven't logged any sets for this workout yet.</li>
+            {% endfor %}
+        </ul>
+    </div>
 
-    <a href="{% url 'accounts:dashboard' %}">End Session</a>
+    <div class="action-links" style="margin-top: 30px;">
+        <a href="{% url 'accounts:dashboard' %}">End Session</a>
+    </div>
+</div>
 {% endblock %}

@@ -1,18 +1,22 @@
 {% extends 'base.html' %}
-
 {% load static %}
 
 {% block title%}{{ block.super }} - Exercise Progress {% endblock %}
+
+{% block style %}
+    <link rel="stylesheet" href="{% static 'fitness_tracking/css/exercise_progress.css' %}">
+{% endblock %}
 
 {% block script %}
     <script src="{% static 'fitness_tracking/js/exercise_progress.js'%}"></script>
 {% endblock %}
 
 {% block content %}
+<div class="container">
     <h2>Exercise Progress</h2>
 
     <div class="progress-controls">
-        <label for="exercise_select">Select an exercise</label>
+        <label for="exercise-select">Select an exercise</label>
         <select id="exercise-select">
             <option value="">-- Choose an Exercise --</option>
             {% for exercise in exercise_list %}
@@ -33,5 +37,6 @@
         <canvas id="progressChart"></canvas>
     </div>
 
-    <a href="{% url 'accounts:dashboard' %}">Back to Dashboard</a>
+    <a href="{% url 'accounts:dashboard' %}" class="back-link">Back to Dashboard</a>
+</div>
 {% endblock %}

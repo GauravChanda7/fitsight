@@ -1,0 +1,108 @@
+/* General Body Styles */
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    margin: 0;
+    background-color: #f4f7f6;
+    color: #333;
+}
+
+/* Dashboard Container */
+.dashboard-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+h1, h3 {
+    color: #2c3e50;
+    margin-bottom: 20px;
+}
+
+/* Dashboard Actions */
+.dashboard-actions {
+    margin-bottom: 40px;
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.dashboard-actions a {
+    background-color: #3498db;
+    color: #fff;
+    padding: 12px 25px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: background-color 0.3s ease;
+}
+
+.dashboard-actions a:hover {
+    background-color: #2980b9;
+}
+
+/* Dashboard Stats */
+.dashboard-stats {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.dashboard-stats p {
+    font-size: 1.2em;
+    color: #555;
+    margin-bottom: 15px;
+}
+
+/* Table Styles */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 30px;
+}
+
+table th, table td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+table th {
+    background-color: #f2f2f2;
+    font-weight: 600;
+}
+
+table a {
+    color: #3498db;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+table a:hover {
+    text-decoration: underline;
+}
+
+/* Chart Styles */
+.chart-actions {
+    margin-bottom: 20px;
+}
+
+.chart-actions button {
+    background-color: #f4f7f6;
+    border: 1px solid #ddd;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.chart-actions button.active {
+    background-color: #3498db;
+    color: #fff;
+    border-color: #3498db;
+}
+
+.chart-container, .volume-chart-container, .muscle-chart-container {
+    margin-top: 30px;
+    margin-bottom: 50px;
+}

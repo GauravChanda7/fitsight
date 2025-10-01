@@ -1,28 +1,32 @@
 {% extends 'base.html' %}
-
 {% load static %}
 
 {% block title %}{{block.super}} - Dashboard {% endblock %}
+
+{% block style %}
+    <link rel="stylesheet" href="{% static 'accounts/css/dashboard.css' %}">
+{% endblock %}
 
 {% block script %}
     <script src="{% static 'accounts/js/script.js'%}"></script>
 {% endblock %}
 
 {% block content %}
+<div class="dashboard-container">
     <h1>Dashboard</h1>
     <div class="dashboard-actions">
         <a href="{% url 'fitness_tracking:create_session' %}">Start a New Workout</a>
-        <a href="{% url 'accounts:logout' %}">Logout</a>
-        <a href="{% url 'accounts:update_profile' %}">Update Profile</a>
         <a href="{% url 'fitness_tracking:workout_history' %}">History</a>
         <a href="{% url 'fitness_tracking:exercise_progress' %}">Exercise Progress</a>
+        <a href="{% url 'accounts:update_profile' %}">Update Profile</a>
+        <a href="{% url 'accounts:logout' %}">Logout</a>
     </div>
-    
 
     <div class="dashboard-stats">
-        <p>Total Sessions : {{ total_sessions }}</p>
-        <p>Workouts this month : {{ workouts_this_month }}</p>
+        <p><strong>Total Sessions:</strong> {{ total_sessions }}</p>
+        <p><strong>Workouts this month:</strong> {{ workouts_this_month }}</p>
 
+        <h3>Recent Activity</h3>
         <table>
             <thead>
                 <tr>
@@ -38,7 +42,7 @@
                         <td>{{ session.date }}</td>
                         <td>
                             {% for muscle in session.target_muscles %}
-                                {{muscle}} {% if not forloop.last %}, {% endif%}
+                                {{muscle}}{% if not forloop.last %}, {% endif%}
                             {% endfor %}
                         </td>
                         <td>{{ session.total_weight_lifted }}</td>
@@ -75,6 +79,5 @@
         </div>
 
     </div>
+</div>
 {% endblock %}
-
-

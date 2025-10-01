@@ -1,8 +1,14 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}{{ block.super }} - Workout on {{ session.date }}{% endblock %}
 
+{% block style %}
+    <link rel="stylesheet" href="{% static 'fitness_tracking/css/workout_detail.css' %}">
+{% endblock %}
+
 {% block content %}
+<div class="container">
     <h2>Workout on {{ session.date }}</h2>
     <table>
         <thead>
@@ -10,7 +16,7 @@
                 <th>Exercise name</th>
                 <th>Muscle Group</th>
                 <th>Reps</th>
-                <th>Weight</th>
+                <th>Weight (kg)</th>
             </tr>
         </thead>
         
@@ -30,5 +36,6 @@
         </tbody>
     </table>
 
-    <a href="{% url 'accounts:dashboard' %}">Back to Dashboard</a>
+    <a href="{% url 'accounts:dashboard' %}" class="back-link">Back to Dashboard</a>
+</div>
 {% endblock %}

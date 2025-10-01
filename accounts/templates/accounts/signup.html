@@ -1,15 +1,22 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}{{ block.super }} - Registration{% endblock %}
 
+{% block style %}
+    <link rel="stylesheet" href="{% static 'accounts/css/signup.css' %}">
+{% endblock %}
+
 {% block content %}
+<div class="form-container">
     <h2>Create your FitSight account</h2>
-    <a href="{% url 'accounts:login' %}">Login</a>
+    <p>Already have an account? <a href="{% url 'accounts:login' %}">Login</a></p>
 
     <form action="" method="post">
         {% csrf_token %}
 
         {% if form.errors %}
+        <div class="error-container">
             <strong>Please correct the errors below:</strong>
             <ul>
                 {% for field in form %}
@@ -22,9 +29,11 @@
                     <li>{{ error }}</li>
                 {% endfor %}
             </ul>
+        </div>
         {% endif %}
 
         {{ form.as_p }}
         <input type="submit" value="Sign Up">
     </form>
+</div>
 {% endblock %}
