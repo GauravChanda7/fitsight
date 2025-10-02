@@ -169,48 +169,48 @@ Before you begin, ensure you have the following installed:
 ```
 fitsight/
 │
-├── accounts/                      
+├── accounts/                        
 │   ├── migrations/
 │   ├── static/
 │   │   └── accounts/
-│   │       ├── css/              
-│   │       └── js/               
+│   │       ├── css/                
+│   │       └── js/                 
 │   ├── templates/
-│   │   └── accounts/             
-│   ├── admin.py                  
-│   ├── forms.py                  
-│   ├── models.py                 
-│   ├── urls.py                   
-│   └── views.py                  
+│   │   └── accounts/               
+│   ├── admin.py                    
+│   ├── forms.py                    
+│   ├── models.py                   
+│   ├── urls.py                     
+│   └── views.py                    
 │
-├── fitness_tracking/              
+├── fitness_tracking/                
 │   ├── migrations/
 │   ├── static/
 │   │   └── fitness_tracking/
-│   │       ├── css/              
-│   │       └── js/               
+│   │       ├── css/                
+│   │       └── js/                 
 │   ├── templates/
-│   │   └── fitness_tracking/     
-│   ├── admin.py                  
-│   ├── forms.py                  
-│   ├── models.py                 
-│   ├── urls.py                   
-│   └── views.py                  
+│   │   └── fitness_tracking/       
+│   ├── admin.py                    
+│   ├── forms.py                    
+│   ├── models.py                   
+│   ├── urls.py                     
+│   └── views.py                    
 │
-├── fitsight_project/              
+├── fitsight_project/                
 │   ├── __init__.py
 │   ├── asgi.py
-│   ├── settings.py               
-│   ├── urls.py                   
+│   ├── settings.py                 
+│   ├── urls.py                     
 │   └── wsgi.py
 │
-├── templates/                     
-│   └── base.html                 
+├── templates/                      
+│   └── base.html                   
 │
-├── .gitignore                     
-├── manage.py                      
-├── README.md                      
-└── requirements.txt               
+├── .gitignore                      
+├── manage.py                       
+├── README.md                       
+└── requirements.txt                
 ```
 
 ### 🗄️ Database Schema
@@ -308,7 +308,7 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 Gaurav Chanda - [gauravchanda2022@gmail.com](mailto:gauravchanda2022@gmail.com)
 
-Project Link: [https://github.com/GauravChanda7/fitsight](https://github.com/GauravChanda7/fitsight)
+Project Link: [https://fitsight-app.onrender.com](https://fitsight-app.onrender.com)
 
 ### 🙏 Acknowledgments
 
@@ -344,7 +344,7 @@ Project Link: [https://github.com/GauravChanda7/fitsight](https://github.com/Gau
 - **Version Control**: Git, GitHub
 
 ### Future Enhancements
-- [ ] Add PostgreSQL database for production
+- [x] Add PostgreSQL database for production
 - [ ] Implement workout templates and programs
 - [ ] Add social features (follow users, share workouts)
 - [ ] Mobile app development (React Native)
