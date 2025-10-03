@@ -4,7 +4,7 @@ from .forms import WorkoutSessionForm, SetForm, AddExerciseForm
 from .models import WorkoutSession, Set, Exercise
 from django.core.paginator import Paginator
 from django.db.models import Max, Sum, F
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseForbidden
 
 # Create your views here.
 
@@ -148,3 +148,13 @@ def get_exercise_progress_data(request, exercise_id):
     }
 
     return JsonResponse(data)
+
+
+@login_required(login_url='accounts:login')
+def delete_session(request, session_id):
+    if request.method == 'DELETE':
+        session = get_object_or_404(WorkoutSession, id=session_id, user=request.user)
+        session.delete()
+        return JsonResponse({'status' : 'success', 'message' : 'Session deleted successfully.'})
+    
+    return HttpResponseForbidden()

@@ -1,10 +1,15 @@
 {% extends 'base.html' %}
+
 {% load static %}
 
 {% block title %}{{block.super}} - Workout History{% endblock %}
 
 {% block style %}
     <link rel="stylesheet" href="{% static 'fitness_tracking/css/workout_history.css' %}">
+{% endblock %}
+
+{% block script %}
+    <script src="{% static 'fitness_tracking/js/workout_history.js' %}"></script>
 {% endblock %}
 
 {% block content %}
@@ -22,7 +27,7 @@
         </thead>
         <tbody>
             {% for session in page_obj %}
-                <tr>
+                <tr id="session-row-{{ session.id }}">
                     <td>{{ session.date }}</td>
                     <td>
                         {% for muscle in session.target_muscles %}
@@ -34,9 +39,10 @@
                     </td>
                     <td>
                         <a href="{% url 'fitness_tracking:workout_detail' session.id %}">See more</a>
+                        <button class="delete-btn" data-session-id="{{ session.id }}">Delete</button>
                     </td>
                 </tr>
-            {% empty %}
+            {% empty %} 
                 <tr>
                     <td colspan="4">No workout history found.</td>
                 </tr>

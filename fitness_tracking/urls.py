@@ -12,4 +12,5 @@ urlpatterns = [
     path('api/get-last-set/<int:exercise_id>/', views.get_last_set_data, name='get_last_set_data'),
     path('progress/', views.exercise_progress_view, name='exercise_progress'),
     path('api/get-exercise-progress/<int:exercise_id>/', views.get_exercise_progress_data, name='get_exercise_progress_data'),
+    path('api/delete-session/<int:session_id>/', views.delete_session, name='delete_session'),
 ]
