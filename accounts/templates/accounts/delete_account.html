@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}{{ block.super }} - Delete Account {% endblock %}
+
+{% block style %}
+    <link rel="stylesheet" href="{% static 'accounts/css/delete_account.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <h2>Delete Your Account</h2>
+    <p>Are yoy sure you want to delete your account? This action can not be undone.</p>
+    <form action="" method="post">
+        {% csrf_token %}
+        <input type="submit" value="Delete My Account">
+    </form>
+    <a href="{% url 'accounts:dashboard'%}">Cancel</a>
+</div>
+{% endblock %}

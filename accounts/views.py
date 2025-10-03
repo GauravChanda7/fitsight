@@ -10,6 +10,7 @@ from datetime import timedelta
 import json
 from django.db.models import Count
 from collections import defaultdict
+from .models import CustomUser
 
 
 # Create your views here.
@@ -167,3 +168,14 @@ def dahsboard_view(request):
                    'monthly_frequency_data' : json.dumps(monthly_frequency_data),}
         
         return render(request, 'accounts/dashboard.html', context)
+    
+
+@login_required(login_url='accounts:login')
+def delete_account_view(request):
+    if request.method == 'POST':
+        user = request.user
+        user.delete()
+        logout(request)
+        return redirect('landing')
+    
+    return render(request, 'accounts/delete_account.html')

@@ -106,3 +106,13 @@ table a:hover {
     margin-top: 30px;
     margin-bottom: 50px;
 }
+
+/* Style for the delete account button */
+.dashboard-actions a.delete-account {
+    background-color: #e74c3c; /* A distinct red color */
+}
+
+/* Darker red color on hover for user feedback */
+.dashboard-actions a.delete-account:hover {
+    background-color: #c0392b;
+}
