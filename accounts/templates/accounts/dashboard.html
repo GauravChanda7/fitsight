@@ -69,6 +69,11 @@
             </canvas>
         </div>
 
+        <h3>Weight History</h3>
+        <div class="weight-chart-container">
+            <canvas id="weightHistoryChart" data-chart-data='{{ weight_history_data|safe }}'></canvas>
+        </div>
+
         <h3>Your Progress (last 100 days)</h3>
         <div class="volume-chart-container">
             <canvas id="volumeChart" data-chart-data='{{ volume_chart_data|safe }}'></canvas>

@@ -10,7 +10,7 @@ from datetime import timedelta
 import json
 from django.db.models import Count
 from collections import defaultdict
-from .models import CustomUser
+from .models import CustomUser, WeightEntry
 
 
 # Create your views here.
@@ -47,9 +47,7 @@ def login_view(request):
         form = AuthenticationForm(request, data = request.POST)
 
         if form.is_valid():
-            username = form.cleaned_data.get('username')
-            password = form.cleaned_data.get('password')
-            user = authenticate(username=username, password=password)
+            user = form.get_user()
             if user is not None:
                 login(request, user)
                 return redirect('accounts:dashboard')
@@ -72,6 +70,19 @@ def update_profile_view(request):
         form = CustomUserUpdateForm(request.POST, instance = request.user)
         
         if form.is_valid():
+            today = timezone.now().date()
+            new_weight = form.cleaned_data.get('weight_kg')
+
+            if new_weight is not None:
+                obj, created = WeightEntry.objects.get_or_create(
+                    user = request.user,
+                    date = today,
+                    defaults= {'weight_kg' : new_weight}
+                )
+
+                if not created and obj.weight_kg != new_weight:
+                    obj.weight_kg = new_weight
+                    obj.save()
             form.save()
             return redirect('accounts:dashboard')
         
@@ -159,13 +170,24 @@ def dahsboard_view(request):
             monthly_frequency_data['labels'].append(day.strftime("%b %d"))
             monthly_frequency_data['data'].append(workouts_by_date.get(day, 0))
 
-        context = {'recent_sessions' : recent_sessions,
-                   'total_sessions' : total_sessions,
-                   'workouts_this_month' : workouts_this_month,
-                   'volume_chart_data' : json.dumps(volume_chart_data),
-                   'muscle_pie_chart_data' : json.dumps(muscle_pie_chart_data),
-                   'weekly_frequency_data' : json.dumps(weekly_frequency_data),
-                   'monthly_frequency_data' : json.dumps(monthly_frequency_data),}
+        weight_history_data = {"labels" : [], "data" : []}
+        weight_entries = WeightEntry.objects.filter(user = request.user).order_by('date')
+
+        for entry in weight_entries:
+            weight_history_data["labels"].append(entry.date.strftime("%b %d"))
+            weight_history_data["data"].append(entry.weight_kg)
+
+
+        context = {
+                'recent_sessions' : recent_sessions,
+                'total_sessions' : total_sessions,
+                'workouts_this_month' : workouts_this_month,
+                'volume_chart_data' : json.dumps(volume_chart_data),
+                'muscle_pie_chart_data' : json.dumps(muscle_pie_chart_data),
+                'weekly_frequency_data' : json.dumps(weekly_frequency_data),
+                'monthly_frequency_data' : json.dumps(monthly_frequency_data),
+                'weight_history_data' : json.dumps(weight_history_data),
+                }
         
         return render(request, 'accounts/dashboard.html', context)
     

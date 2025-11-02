@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.conf import settings
+from django.utils import timezone
 
 # Create your models here.
 
@@ -33,3 +35,16 @@ class CustomUser(AbstractUser):
     
     def __str__(self):
         return self.username
+    
+
+class WeightEntry(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="weight_history")
+    weight_kg = models.FloatField()
+    date = models.DateField(default=timezone.now)
+
+    class Meta:
+        ordering = ['-date']
+        verbose_name_plural = "Weight Entries"
+    
+    def __str__(self):
+        return f"{self.user.username} - {self.weight_kg}kg in {self.date}"
